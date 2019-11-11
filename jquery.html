@@ -7,7 +7,22 @@
     <title>jQuery</title>
     <link rel="shortcut icon" href="#" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <style>
+        li{
+            width: 1000px;
+            margin:20px auto;
+            padding:10px;
+            border:1px solid #31be83;
+            box-shadow: 2px 2px 3px black;
+        }                   
+    </style>
       <!-------引入jQuery函式庫------->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+
 </head>
 <body>
     <h1 class="header">jQuery</h1>
@@ -28,16 +43,48 @@
     //利用$.ajax()方法傳送請求並取得回應
     /* $.ajax(
       {
-        url:'',
-        type:'',
-        success:,
-        error:,
-        complete:
+        url:'https://kktix.com/events.json',
+        type:'GET',
+        success:function(res){
+          console.log(res);
+          let title = res.title;
+          document.querySelector('.title').innerHTML = title;
+          document.querySelector("h4").innerHTML = "更新時間："+res.updated.substr(0,10);
+
+          let data = res.entry;
+          let str = "";
+          data.forEach(function(event,index){
+          str = str + `<li><a href = "${event.url}">${(index+1)+'. '+event.title}</a> - ${event.content}</li>`;
+          })
+          document.querySelector("ul").innerHTML = str;
+        },
+        error:function(err){
+          console.log(err);
+        },
+        complete:function(xhr,status){
+          console.log(status);
+        }
       }
-    ) */   
+    )  */
 
     
     //利用$.get()方法傳送請求並取得回應
+      $.get("https://kktix.com/events.json",{},function(res){
+          console.log(res);
+          let title = res.title;
+          /* document.querySelector('.title').innerHTML = title;
+          document.querySelector("h4").innerHTML = "更新時間："+res.updated.substr(0,10); */
+          $(".title").html(title);
+          $("h4").html("更新時間："+res.updated.substr(0,10));
 
+          let data = res.entry;
+          // let str = "";
+          data.forEach(function(event,index){
+          // str = str + `<li><a href = "${event.url}">${(index+1)+'. '+event.title}</a> - ${event.content}</li>`;
+          $("ul").append(`<li><a href = "${event.url}">${(index+1)+'. '+event.title}</a> - ${event.content}</li>`);
+          })
+          // document.querySelector("ul").innerHTML = str;
+
+      })
 
   </script>
